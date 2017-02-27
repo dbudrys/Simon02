@@ -19,13 +19,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlayActivity"
+        <activity
+            android:name=".PlayActivity"
             android:label="PlayActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:label="AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".SelectActivity"
+            android:label="SelectActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".AboutActivity"
-            android:label="AboutActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
