@@ -8,34 +8,49 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.dustin_domas_assignment.simon02.MainActivity">
+    tools:context="com.dustin_domas_assignment.simon02.MainActivity"
+    android:background="@drawable/background">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SIMON"
+        android:text="Let's Play SIMON"
+        android:fontFamily="casual"
+        android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp"
-        android:id="@+id/textView"/>
-
-    <Button
-        android:text="Play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/play_button"
-        android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:layout_marginTop="76dp" />
+        android:textSize="40sp"
+        android:id="@+id/textView"
+        />
 
     <Button
         android:text="ABOUT"
-        android:layout_width="wrap_content"
+        android:layout_width="500px"
         android:layout_height="wrap_content"
         android:id="@+id/about_button"
+        android:fontFamily="casual"
+        android:textStyle="bold"
         android:layout_below="@+id/play_button"
         android:layout_alignLeft="@+id/play_button"
         android:layout_alignStart="@+id/play_button"
-        android:layout_marginTop="98dp" />
+        android:layout_marginTop="98dp"
+
+        android:textColor="#ffc81515"
+        android:textSize="30sp"
+        android:background="@drawable/buttonshape"/>
+
+    <Button
+        android:text="Play"
+        android:layout_width="500px"
+        android:layout_height="wrap_content"
+        android:id="@+id/play_button"
+        android:layout_marginTop="74dp"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+
+        android:textColor="#ffc81515"
+        android:textSize="30sp"
+        android:background="@drawable/buttonshape"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
