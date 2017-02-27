@@ -9,6 +9,47 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dustin_domas_assignment.simon02.AboutActivity"
-    android:background="@color/colorBackground">
+    android:background="@drawable/background">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+
+        android:textSize="40sp"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="More about SIMON game"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp"
+        android:id="@+id/more_button"
+        android:background="@drawable/buttonshape"
+
+        android:textColor="#ffc81515"
+        android:textSize="18sp"/>
+
+    <Button
+        android:text="developers"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/more_button"
+        android:layout_alignLeft="@+id/more_button"
+        android:layout_alignStart="@+id/more_button"
+        android:layout_marginTop="98dp"
+        android:id="@+id/dev_button"
+        android:background="@drawable/buttonshape"
+
+        android:textColor="#ffc81515"
+        android:textSize="25sp"/>
+
 
 </RelativeLayout>
