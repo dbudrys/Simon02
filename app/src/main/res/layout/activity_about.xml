@@ -12,50 +12,44 @@
     android:background="@drawable/background">
 
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About!!!"
+        android:text="About"
         android:fontFamily="casual"
         android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+
         android:textSize="40sp"
         android:id="@+id/textView"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="More about Simon"
-        android:layout_width="500px"
+        android:text="More about SIMON game"
+        android:layout_width="600px"
         android:layout_height="wrap_content"
-        android:id="@+id/more_button"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-
-        android:textColor="#ffc81515"
-        android:textSize="20sp"
-        android:background="@drawable/buttonshape"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="34dp"
-        android:layout_marginEnd="34dp" />
-
-    <Button
-        android:text="Developers"
-        android:layout_width="500px"
-        android:layout_height="wrap_content"
-        android:id="@+id/dev_button"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:layout_marginTop="40dp"
-
-        android:textColor="#ffc81515"
-        android:textSize="30sp"
-        android:background="@drawable/buttonshape"
         android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp"
+        android:id="@+id/more_button"
+        android:background="@drawable/buttonshape"
+
+        android:textColor="#ffc81515"
+        android:textSize="18sp"/>
+
+    <Button
+        android:text="developers"
+        android:layout_width="600px"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/more_button"
         android:layout_alignLeft="@+id/more_button"
-        android:layout_alignStart="@+id/more_button" />
+        android:layout_alignStart="@+id/more_button"
+        android:layout_marginTop="98dp"
+        android:id="@+id/dev_button"
+        android:background="@drawable/buttonshape"
+
+        android:textColor="#ffc81515"
+        android:textSize="30sp"/>
+
 
 </RelativeLayout>
