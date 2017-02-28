@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class PlayActivity extends AppCompatActivity {
 
-    private BackgroundTask backgroundTask;
+    private SimonTask backgroundTask;
     private ArrayList<Integer> data;
     private Object lock;
     @Override
@@ -20,29 +20,34 @@ public class PlayActivity extends AppCompatActivity {
 
         data = new ArrayList<>();
         lock = new Object();
+
+        findViewById(R.id.start_button).setOnClickListener(new StartGameListener());
     }
 
-    class BackgroundListener implements View.OnClickListener{
+
+// start game 
+    class StartGameListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
             if(backgroundTask==null){
-                backgroundTask = new BackgroundTask();
+                backgroundTask = new SimonTask();
                 backgroundTask.execute();
             }
         }
 
     }
     //background task
-    class BackgroundTask extends AsyncTask<Void, Integer, Void> {
+    class SimonTask extends AsyncTask<Void, Integer, Void> {
         private TextView messageTv;
         private int messageCount;
-        BackgroundTask() {
-            //messageTv = (TextView) findViewById(R.id.messageTv);
+
+        SimonTask() {
+            messageTv = (TextView) findViewById(R.id.score_view);
 
         }
 
         protected void onPreExecute(){
-            messageTv.setText("");
+            messageTv.setText("0");
         }
 
         @Override
@@ -58,6 +63,7 @@ public class PlayActivity extends AppCompatActivity {
 
                         for (int i : data) {
                             sum += 1;
+
                         }
 
                         data.clear();
@@ -90,6 +96,9 @@ public class PlayActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             messageTv.setText("Cancelled");
+
+
+
         }
 
     }
