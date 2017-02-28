@@ -25,7 +25,7 @@ public class PlayActivity extends AppCompatActivity {
     }
 
 
-// start game
+// start game listener
     class StartGameListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
