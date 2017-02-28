@@ -25,6 +25,24 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
+        Button activity2 = (Button) findViewById(R.id.activity2_button);
+        activity2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(getApplication(),
+                        PlayActivity22.class);
+
+
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
 
