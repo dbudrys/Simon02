@@ -1,5 +1,6 @@
 package com.dustin_domas_assignment.simon02;
 
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,14 +12,21 @@ import java.util.ArrayList;
 public class PlayActivity extends AppCompatActivity {
 
     private SimonTask backgroundTask;
-    private ArrayList<Integer> data;
+    private ArrayList<Integer> sequenceData;
+    private ArrayList<Integer> playerData;
     private Object lock;
+    private SoundPool sound;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        data = new ArrayList<>();
+        sequenceData = new ArrayList<>();
+        playerData = new ArrayList<>();
         lock = new Object();
 
         findViewById(R.id.start_button).setOnClickListener(new StartGameListener());
@@ -35,7 +43,21 @@ public class PlayActivity extends AppCompatActivity {
             }
         }
 
+
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
     //background task
     class SimonTask extends AsyncTask<Void, Integer, Void> {
         private TextView messageTv;
@@ -43,7 +65,8 @@ public class PlayActivity extends AppCompatActivity {
 
         SimonTask() {
             messageTv = (TextView) findViewById(R.id.score_view);
-            data.clear();
+            sequenceData.clear();
+            playerData.clear();
 
         }
 
@@ -53,32 +76,20 @@ public class PlayActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-
-
-
-            while(!isCancelled()) {
+            /*while(!isCancelled()) {
                 if (data.size() > 0) {
-
-
                     synchronized (lock) {
-
                         for (int i : data) {
-
-
                         }
-
-
-
-
-
                     }
-                   /* if(sum > 0) {
+                    if(sum > 0) {
                         publishProgress(sum);
+                    }
+                    }
                     }*/
-                }
-            }
             return null;
         }
+
         @Override
         protected void onProgressUpdate(Integer...values){
 
@@ -86,11 +97,9 @@ public class PlayActivity extends AppCompatActivity {
         }//hey
 
 //post execute function
-
         @Override
         protected void onPostExecute(Void aVoid){
             messageTv.setText("Background Thread Finished");
-
             backgroundTask = null;
         }
 
