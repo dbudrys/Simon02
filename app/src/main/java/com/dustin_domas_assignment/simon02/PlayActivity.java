@@ -72,9 +72,9 @@ public class PlayActivity extends AppCompatActivity {
 
 
                     }
-                    if(sum > 0) {
+                   /* if(sum > 0) {
                         publishProgress(sum);
-                    }
+                    }*/
                 }
             }
             return null;
