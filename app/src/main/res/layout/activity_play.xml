@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    
+
     android:background="@color/colorBackground">
 
     <ImageButton
@@ -53,4 +53,26 @@
         android:layout_alignRight="@+id/red_button"
         android:layout_alignEnd="@+id/red_button"
         android:id="@+id/blue_button" />
+
+    <Button
+        android:text="Start Game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="14dp"
+        android:id="@+id/start_button" />
+
+    <TextView
+        android:text="Score"
+        android:id="@+id/score_view"
+        android:elevation="13dp"
+        android:textSize="25sp"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/red_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp" />
+
 </RelativeLayout>
