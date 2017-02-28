@@ -25,7 +25,7 @@ public class PlayActivity extends AppCompatActivity {
     }
 
 
-// start game 
+// start game
     class StartGameListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
@@ -43,6 +43,7 @@ public class PlayActivity extends AppCompatActivity {
 
         SimonTask() {
             messageTv = (TextView) findViewById(R.id.score_view);
+            data.clear();
 
         }
 
@@ -58,15 +59,15 @@ public class PlayActivity extends AppCompatActivity {
             while(!isCancelled()) {
                 if (data.size() > 0) {
 
-                    int sum = 0;
+
                     synchronized (lock) {
 
                         for (int i : data) {
-                            sum += 1;
+
 
                         }
 
-                        data.clear();
+
 
 
 
