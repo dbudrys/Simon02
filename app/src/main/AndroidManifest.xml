@@ -29,6 +29,10 @@
             android:label="SelectActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".PlayActivity"
+            android:label="PlayActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>
