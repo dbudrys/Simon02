@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_play"
     android:layout_width="match_parent"
@@ -11,4 +12,45 @@
     tools:context="com.dustin_domas_assignment.simon02.PlayActivity"
     android:background="@color/colorBackground">
 
+    <ImageButton
+        app:srcCompat="@drawable/greene"
+        android:layout_marginLeft="69dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="130dp"
+        android:id="@+id/green_button"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/yellow"
+        android:id="@+id/yellow_button"
+        android:layout_marginTop="105dp"
+        android:layout_width="80dp"
+        android:layout_below="@+id/green_button"
+        android:layout_alignLeft="@+id/green_button"
+        android:layout_alignStart="@+id/green_button" />
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/lightred"
+        android:layout_alignBottom="@+id/green_button"
+        android:layout_toRightOf="@+id/green_button"
+        android:layout_toEndOf="@+id/green_button"
+        android:layout_marginLeft="72dp"
+        android:layout_marginStart="72dp"
+        android:id="@+id/red_button" />
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/blue"
+        android:layout_alignTop="@+id/yellow_button"
+        android:layout_alignRight="@+id/red_button"
+        android:layout_alignEnd="@+id/red_button"
+        android:id="@+id/blue_button" />
 </RelativeLayout>
