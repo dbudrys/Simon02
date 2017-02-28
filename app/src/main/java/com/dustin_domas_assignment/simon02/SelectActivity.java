@@ -49,7 +49,7 @@ public class SelectActivity extends AppCompatActivity {
 
     /*
     Will have to add activities and intents for
-    activity2 (Version II)
+
     activity3 (Version II)
      */
 
