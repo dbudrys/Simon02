@@ -1,13 +1,19 @@
 package com.dustin_domas_assignment.simon02;
 
+import android.annotation.TargetApi;
+import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -16,7 +22,7 @@ public class PlayActivity extends AppCompatActivity {
     private ArrayList<Integer> playerData;
     private Object lock;
     private SoundPool sound;
-
+    private Set<Integer> soundLoaded;
 
 
 
@@ -29,7 +35,13 @@ public class PlayActivity extends AppCompatActivity {
         playerData = new ArrayList<>();
         lock = new Object();
 
+        soundLoaded =  new HashSet<Integer>();
+
         findViewById(R.id.start_button).setOnClickListener(new StartGameListener());
+        findViewById(R.id.green_button).setOnClickListener(new StartGameListener());
+        findViewById(R.id.red_button).setOnClickListener(new StartGameListener());
+        findViewById(R.id.yellow_button).setOnClickListener(new StartGameListener());
+        findViewById(R.id.blue_button).setOnClickListener(new StartGameListener());
     }
 
 
@@ -48,9 +60,62 @@ public class PlayActivity extends AppCompatActivity {
 
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onResume(){
+        super.onResume();
 
 
+            AudioAttributes.Builder attrBuilder = new AudioAttributes.Builder();
+            attrBuilder.setUsage(AudioAttributes.USAGE_GAME);
 
+
+        SoundPool.Builder spBuilder = new SoundPool.Builder();
+        spBuilder.setAudioAttributes(attrBuilder.build());
+        spBuilder.setMaxStreams(2);
+
+        sound = spBuilder.build();
+
+        sound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                if(status == 0){
+                    soundLoaded.add(sampleId);
+
+                    Log.i("Sounds", "Loading" + sampleId);
+
+                } else{
+                    Log.i("Sounds","Error with loading");
+                }//end else
+            }
+        });//end LoadCompleteListener
+
+        //load sounds to their ids
+        int button1SoundID = sound.load(this, R.raw.button1_sound,1);
+        int button2SoundID = sound.load(this, R.raw.button2_sound,1);
+        int button3SoundID = sound.load(this, R.raw.button3_sound,1);
+        int button4SoundID = sound.load(this, R.raw.button4_sound,1);
+
+
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        if(backgroundTask != null){
+            backgroundTask.cancel(true);
+            backgroundTask = null;
+        }
+
+    }
+
+
+/*
+
+            ADD THE FOUR IMAGE BUTTON LISTENERS INSIDE THE THREAD FUNCTION BELOW
+
+
+ */
 
 
 
@@ -87,6 +152,13 @@ public class PlayActivity extends AppCompatActivity {
                     }
                     }
                     }*/
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+
+
             return null;
         }
 
@@ -106,7 +178,7 @@ public class PlayActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             messageTv.setText("Cancelled");
-
+            backgroundTask  = null;
 
 
         }
