@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class PlayActivity extends AppCompatActivity {
@@ -23,8 +25,9 @@ public class PlayActivity extends AppCompatActivity {
     private Object lock;
     private SoundPool sound;
     private Set<Integer> soundLoaded;
+    private int randomNum = 0;
 
-
+    private boolean winLostFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,9 @@ public class PlayActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(soundLoaded.contains(button1SoundID)){
                     sound.play(button1SoundID,1.0f, 1.0f,0,0,1.0f);
+
                 }
+                buttonIdentifier(0);
             }
         });
 
@@ -96,6 +101,7 @@ public class PlayActivity extends AppCompatActivity {
                 if(soundLoaded.contains(button2SoundID)){
                     sound.play(button2SoundID,1.0f, 1.0f,0,0,1.0f);
                 }
+                buttonIdentifier(1);
             }
         });
 
@@ -105,6 +111,7 @@ public class PlayActivity extends AppCompatActivity {
                 if(soundLoaded.contains(button3SoundID)){
                     sound.play(button3SoundID,1.0f, 1.0f,0,0,1.0f);
                 }
+                buttonIdentifier(2);
             }
         });
 
@@ -114,29 +121,44 @@ public class PlayActivity extends AppCompatActivity {
                 if(soundLoaded.contains(button4SoundID)){
                     sound.play(button4SoundID,1.0f, 1.0f,0,0,1.0f);
                 }
+                buttonIdentifier(3);
             }
         });
 
     }
+
+    void buttonIdentifier(int num){
+
+        playerData.add(num);
+    }
+
+
+
+
 // start game listener
     class StartGameListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
+
+        startGame();
+    }
+}//end start gamelistener
+
+
+    protected void startGame(){
+
+        //check to make sure there is not a bunch of SimonTask queued up by not setting it back to null
+        //until the AsyncTask is finished
+        if (backgroundTask != null && backgroundTask.getStatus() == AsyncTask.Status.FINISHED){
+            backgroundTask = null;
+        }
+
+
         if (backgroundTask == null) {
             backgroundTask = new SimonTask();
             backgroundTask.execute();
         }
     }
-}//end start gamelistener
-
-    /*class GreenButtonListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v){
-            if(soundLoaded.contains(button1SoundID))
-            sound.play(button1SoundID,1.0f, 1.0f, 0, 0, 1.0f );
-        }
-    }*/
-
 
 
     @Override
@@ -151,44 +173,49 @@ public class PlayActivity extends AppCompatActivity {
     }
 
 
-/*
-
-            ADD THE FOUR IMAGE BUTTON LISTENERS INSIDE THE THREAD FUNCTION BELOW
-
-*/
 
 
     //background task
     class SimonTask extends AsyncTask<Void, Integer, Void> {
         private TextView messageTv;
         private int messageCount;
+        private int gameCount = 0;
+
+        Random rand = new Random();
+
+
 
         SimonTask() {
-            messageTv = (TextView) findViewById(R.id.score_view);
-            sequenceData.clear();
-            playerData.clear();
+            //messageTv = (TextView) findViewById(R.id.score_view);
+            //sequenceData.clear();
+           // playerData.clear();
 
         }
 
         protected void onPreExecute(){
-            messageTv.setText("0");
+           // messageTv.setText("Get ready");
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            /*while(!isCancelled()) {
-                if (data.size() > 0) {
-                    synchronized (lock) {
-                        for (int i : data) {
-                        }
-                    }
-                    if(sum > 0) {
-                        publishProgress(sum);
-                    }
-                    }
-                    }*/
+
+
+
+            dataCreator();
             try {
-                Thread.sleep(3000);
+
+                if (sequenceData.size() > 0) {
+                    synchronized (lock) {
+
+                        for (int i : sequenceData) {
+                           publishProgress(i);
+                        }
+                        Thread.sleep(2000);
+                        gameCount++;
+                    }
+
+                }
+
             } catch (InterruptedException e){
                 e.printStackTrace();
             }
@@ -197,16 +224,43 @@ public class PlayActivity extends AppCompatActivity {
             return null;
         }
 
+        void dataCreator(){
+         randomNum = rand.nextInt(3);
+
+            if(gameCount==0) {
+                sequenceData.add(randomNum);
+            }
+        }
+
         @Override
         protected void onProgressUpdate(Integer...values){
+            int value = values[0];
+            ImageButton button;
+            Log.i("Sequence", String.valueOf(sequenceData.get(value)));
+            switch (sequenceData.get(value)){
+                case 0: button = (ImageButton) findViewById(R.id.green_button);
+                    button.setImageResource(R.drawable.lightupgreen);
+                    break;
+                case 1:button = (ImageButton) findViewById(R.id.red_button);
+                    button.setImageResource(R.drawable.lightupred);
+                    break;
+                case 2: button = (ImageButton) findViewById(R.id.blue_button);
+                    button.setImageResource(R.drawable.lightupblue);
+                    break;
+                case 3:
+                    button = (ImageButton) findViewById(R.id.yellow_button);
+                    button.setImageResource(R.drawable.lightupyellow);
+                    break;
+            }
 
-            messageTv.setText("Sum = " + values[0]);
         }//hey
 
 //post execute function
         @Override
         protected void onPostExecute(Void aVoid){
-            messageTv.setText("Background Thread Finished");
+            messageTv.setText("Your Turn!");
+
+
             backgroundTask = null;
         }
 
