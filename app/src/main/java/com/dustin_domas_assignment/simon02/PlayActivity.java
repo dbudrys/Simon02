@@ -24,8 +24,7 @@ public class PlayActivity extends AppCompatActivity {
     private SoundPool sound;
     private Set<Integer> soundLoaded;
 
-    final int button1SoundID = sound.load(this, R.raw.button1_sound,1);
-    final int button2SoundID = sound.load(this, R.raw.button2_sound,1);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +38,11 @@ public class PlayActivity extends AppCompatActivity {
         soundLoaded =  new HashSet<Integer>();
 
         findViewById(R.id.start_button).setOnClickListener(new StartGameListener());
-        findViewById(R.id.green_button).setOnClickListener(new StartGameListener());
-        findViewById(R.id.red_button).setOnClickListener(new StartGameListener());
-        findViewById(R.id.yellow_button).setOnClickListener(new StartGameListener());
-        findViewById(R.id.blue_button).setOnClickListener(new StartGameListener());
+
+        //findViewById(R.id.green_button).setOnClickListener(new GreenButtonListener());
+        //findViewById(R.id.red_button).setOnClickListener(new StartGameListener());
+        //findViewById(R.id.yellow_button).setOnClickListener(new StartGameListener());
+        //findViewById(R.id.blue_button).setOnClickListener(new StartGameListener());
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -74,13 +74,48 @@ public class PlayActivity extends AppCompatActivity {
                 }//end else
             }
         });//end LoadCompleteListener
+        final int button1SoundID = sound.load(this, R.raw.button1_sound,1);
+        final int button2SoundID = sound.load(this, R.raw.button2_sound,1);
 
-        //load sounds to their ids
-         // = sound.load(this, R.raw.button1_sound,1);
         //final int button2SoundID = sound.load(this, R.raw.button2_sound,1);
-        //final int button3SoundID = sound.load(this, R.raw.button3_sound,1);
-        //final int button4SoundID = sound.load(this, R.raw.button4_sound,1);
+        final int button3SoundID = sound.load(this, R.raw.button3_sound,1);
+        final int button4SoundID = sound.load(this, R.raw.button4_sound,1);
 
+        findViewById(R.id.green_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(soundLoaded.contains(button1SoundID)){
+                    sound.play(button1SoundID,1.0f, 1.0f,0,0,1.0f);
+                }
+            }
+        });
+
+        findViewById(R.id.red_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(soundLoaded.contains(button2SoundID)){
+                    sound.play(button2SoundID,1.0f, 1.0f,0,0,1.0f);
+                }
+            }
+        });
+
+        findViewById(R.id.blue_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(soundLoaded.contains(button3SoundID)){
+                    sound.play(button3SoundID,1.0f, 1.0f,0,0,1.0f);
+                }
+            }
+        });
+
+        findViewById(R.id.yellow_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(soundLoaded.contains(button4SoundID)){
+                    sound.play(button4SoundID,1.0f, 1.0f,0,0,1.0f);
+                }
+            }
+        });
 
     }
 // start game listener
@@ -94,34 +129,15 @@ public class PlayActivity extends AppCompatActivity {
     }
 }//end start gamelistener
 
-    class GreenButtonListener implements View.OnClickListener{
+    /*class GreenButtonListener implements View.OnClickListener{
         @Override
         public void onClick(View v){
             if(soundLoaded.contains(button1SoundID))
             sound.play(button1SoundID,1.0f, 1.0f, 0, 0, 1.0f );
         }
-    }
+    }*/
 
-    class RedButtonListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v){
 
-        }
-    }
-
-    class BlueButtonListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v){
-
-        }
-    }
-
-    class YellowButtonListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v){
-            //playSound(button1SoundID);
-        }
-    }
 
     @Override
     protected void onPause(){
@@ -139,8 +155,8 @@ public class PlayActivity extends AppCompatActivity {
 
             ADD THE FOUR IMAGE BUTTON LISTENERS INSIDE THE THREAD FUNCTION BELOW
 
+*/
 
- */
 
     //background task
     class SimonTask extends AsyncTask<Void, Integer, Void> {
