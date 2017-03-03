@@ -13,18 +13,6 @@
     android:background="@color/colorBackground">
 
     <ImageButton
-        app:srcCompat="@drawable/greene"
-        android:layout_marginLeft="69dp"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="130dp"
-        android:id="@+id/green_button"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageButton
         android:layout_height="60dp"
         app:srcCompat="@drawable/yellow"
         android:id="@+id/yellow_button"
@@ -33,17 +21,6 @@
         android:layout_below="@+id/green_button"
         android:layout_alignLeft="@+id/green_button"
         android:layout_alignStart="@+id/green_button" />
-
-    <ImageButton
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        app:srcCompat="@drawable/lightred"
-        android:layout_alignBottom="@+id/green_button"
-        android:layout_toRightOf="@+id/green_button"
-        android:layout_toEndOf="@+id/green_button"
-        android:layout_marginLeft="72dp"
-        android:layout_marginStart="72dp"
-        android:id="@+id/red_button" />
 
     <ImageButton
         android:layout_width="80dp"
@@ -64,15 +41,27 @@
         android:layout_marginBottom="14dp"
         android:id="@+id/start_button" />
 
-    <TextView
-        android:text="Score"
-        android:id="@+id/score_view"
-        android:elevation="13dp"
-        android:textSize="25sp"
-        android:layout_width="110dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/red_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="38dp" />
+    <ImageButton
+        app:srcCompat="@drawable/greene"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="130dp"
+        android:id="@+id/green_button"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        app:srcCompat="@drawable/lightred"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:id="@+id/red_button"
+        android:layout_above="@+id/yellow_button"
+        android:layout_toRightOf="@+id/green_button"
+        android:layout_toEndOf="@+id/green_button"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
 
 </RelativeLayout>
