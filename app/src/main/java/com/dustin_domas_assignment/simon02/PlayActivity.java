@@ -202,12 +202,13 @@ public class PlayActivity extends AppCompatActivity {
 
 
             dataCreator();
+            int listSize = sequenceData.size();
             try {
 
                 if (sequenceData.size() > 0) {
                     synchronized (lock) {
 
-                        for (int i : sequenceData) {
+                        for (int i = 0; i< listSize; i++) {
                            publishProgress(i);
                         }
                         Thread.sleep(2000);
@@ -225,9 +226,9 @@ public class PlayActivity extends AppCompatActivity {
         }
 
         void dataCreator(){
-         randomNum = rand.nextInt(3);
 
-            if(gameCount==0) {
+            for(int x = 0; x<=gameCount; x++) {
+                randomNum = rand.nextInt(3);
                 sequenceData.add(randomNum);
             }
         }
@@ -236,7 +237,7 @@ public class PlayActivity extends AppCompatActivity {
         protected void onProgressUpdate(Integer...values){
             int value = values[0];
             ImageButton button;
-            Log.i("Sequence", String.valueOf(sequenceData.get(value)));
+           Log.i("Sequence",""+value);
             switch (sequenceData.get(value)){
                 case 0: button = (ImageButton) findViewById(R.id.green_button);
                     button.setImageResource(R.drawable.lightupgreen);
@@ -258,7 +259,7 @@ public class PlayActivity extends AppCompatActivity {
 //post execute function
         @Override
         protected void onPostExecute(Void aVoid){
-            messageTv.setText("Your Turn!");
+            //messageTv.setText("Your Turn!");
 
 
             backgroundTask = null;
