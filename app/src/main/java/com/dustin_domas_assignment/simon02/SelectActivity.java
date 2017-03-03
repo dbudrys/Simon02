@@ -18,7 +18,7 @@ public class SelectActivity extends AppCompatActivity {
         activity1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(getApplication(),
+                Intent intent = new Intent(getApplication(),
                 PlayActivity.class);
 
 
