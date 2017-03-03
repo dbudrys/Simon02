@@ -24,7 +24,8 @@ public class PlayActivity extends AppCompatActivity {
     private SoundPool sound;
     private Set<Integer> soundLoaded;
 
-
+    final int button1SoundID = sound.load(this, R.raw.button1_sound,1);
+    final int button2SoundID = sound.load(this, R.raw.button2_sound,1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,30 +45,14 @@ public class PlayActivity extends AppCompatActivity {
         findViewById(R.id.blue_button).setOnClickListener(new StartGameListener());
     }
 
-
-// start game listener
-    class StartGameListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v){
-            if(backgroundTask==null){
-                backgroundTask = new SimonTask();
-                backgroundTask.execute();
-            }
-        }
-
-
-
-
-    }
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onResume(){
         super.onResume();
 
 
-            AudioAttributes.Builder attrBuilder = new AudioAttributes.Builder();
-            attrBuilder.setUsage(AudioAttributes.USAGE_GAME);
+        AudioAttributes.Builder attrBuilder = new AudioAttributes.Builder();
+        attrBuilder.setUsage(AudioAttributes.USAGE_GAME);
 
 
         SoundPool.Builder spBuilder = new SoundPool.Builder();
@@ -91,13 +76,53 @@ public class PlayActivity extends AppCompatActivity {
         });//end LoadCompleteListener
 
         //load sounds to their ids
-        int button1SoundID = sound.load(this, R.raw.button1_sound,1);
-        int button2SoundID = sound.load(this, R.raw.button2_sound,1);
-        int button3SoundID = sound.load(this, R.raw.button3_sound,1);
-        int button4SoundID = sound.load(this, R.raw.button4_sound,1);
+         // = sound.load(this, R.raw.button1_sound,1);
+        //final int button2SoundID = sound.load(this, R.raw.button2_sound,1);
+        //final int button3SoundID = sound.load(this, R.raw.button3_sound,1);
+        //final int button4SoundID = sound.load(this, R.raw.button4_sound,1);
 
 
     }
+// start game listener
+    class StartGameListener implements View.OnClickListener {
+    @Override
+    public void onClick(View v) {
+        if (backgroundTask == null) {
+            backgroundTask = new SimonTask();
+            backgroundTask.execute();
+        }
+    }
+}//end start gamelistener
+
+    class GreenButtonListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            if(soundLoaded.contains(button1SoundID))
+            sound.play(button1SoundID,1.0f, 1.0f, 0, 0, 1.0f );
+        }
+    }
+
+    class RedButtonListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+
+        }
+    }
+
+    class BlueButtonListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+
+        }
+    }
+
+    class YellowButtonListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            //playSound(button1SoundID);
+        }
+    }
+
     @Override
     protected void onPause(){
         super.onPause();
@@ -116,12 +141,6 @@ public class PlayActivity extends AppCompatActivity {
 
 
  */
-
-
-
-
-
-
 
     //background task
     class SimonTask extends AsyncTask<Void, Integer, Void> {
