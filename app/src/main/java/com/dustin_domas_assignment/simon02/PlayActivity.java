@@ -238,7 +238,7 @@ public class PlayActivity extends AppCompatActivity {
             int value = values[0];
             ImageButton button;
            Log.i("Sequence",""+value);
-            switch (sequenceData.get(value)){
+            switch (value){
                 case 0: button = (ImageButton) findViewById(R.id.green_button);
                     button.setImageResource(R.drawable.lightupgreen);
                     break;

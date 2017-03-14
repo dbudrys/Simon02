@@ -54,4 +54,19 @@ public class SelectActivity extends AppCompatActivity {
      */
 
 
-}
+
+
+
+
+
+    /*
+
+    For keeping highscore
+
+    https://www.youtube.com/watch?v=WYWsVJTmWbY
+
+     */
+
+
+
+}// end of everything
