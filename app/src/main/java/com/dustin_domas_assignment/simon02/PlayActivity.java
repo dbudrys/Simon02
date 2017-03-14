@@ -5,30 +5,45 @@ import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import android.view.View.OnClickListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class PlayActivity extends AppCompatActivity {
+public class PlayActivity extends AppCompatActivity implements OnClickListener {
+
+
+    private int button1SoundID;
+    private int button2SoundID;
+    private int button3SoundID;
+    private int button4SoundID;
+    private int gameCount = 0;
 
     private SimonTask backgroundTask;
     private ArrayList<Integer> sequenceData;
     private ArrayList<Integer> playerData;
-    private Object lock;
+
     private SoundPool sound;
     private Set<Integer> soundLoaded;
+
     private int randomNum = 0;
+    int roundCount = 0;
+    Random rand;
+    ImageButton greenButton, redButton, blueButton, yellowButton;
 
     private boolean winLostFlag;
+    private boolean playersTurn = false;
+    private boolean computersTurn = false;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,22 +51,30 @@ public class PlayActivity extends AppCompatActivity {
 
         sequenceData = new ArrayList<>();
         playerData = new ArrayList<>();
-        lock = new Object();
 
-        soundLoaded =  new HashSet<Integer>();
+
+        soundLoaded = new HashSet<Integer>();
 
         findViewById(R.id.start_button).setOnClickListener(new StartGameListener());
+        greenButton = (ImageButton) findViewById(R.id.green_button);
+        redButton = (ImageButton) findViewById(R.id.red_button);
+        blueButton = (ImageButton) findViewById(R.id.blue_button);
+        yellowButton = (ImageButton) findViewById(R.id.yellow_button);
 
         //findViewById(R.id.green_button).setOnClickListener(new GreenButtonListener());
         //findViewById(R.id.red_button).setOnClickListener(new StartGameListener());
         //findViewById(R.id.yellow_button).setOnClickListener(new StartGameListener());
         //findViewById(R.id.blue_button).setOnClickListener(new StartGameListener());
-    }
+        greenButton.setOnClickListener(this);
+        redButton.setOnClickListener(this);
+        blueButton.setOnClickListener(this);
+        yellowButton.setOnClickListener(this);
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onResume(){
-        super.onResume();
+
+        greenButton.setTag(1);
+        redButton.setTag(2);
+        blueButton.setTag(3);
+        yellowButton.setTag(4);
 
 
         AudioAttributes.Builder attrBuilder = new AudioAttributes.Builder();
@@ -67,82 +90,92 @@ public class PlayActivity extends AppCompatActivity {
         sound.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                if(status == 0){
+                if (status == 0) {
                     soundLoaded.add(sampleId);
 
                     Log.i("Sounds", "Loading" + sampleId);
 
-                } else{
-                    Log.i("Sounds","Error with loading");
+                } else {
+                    Log.i("Sounds", "Error with loading");
                 }//end else
             }
         });//end LoadCompleteListener
-        final int button1SoundID = sound.load(this, R.raw.button1_sound,1);
-        final int button2SoundID = sound.load(this, R.raw.button2_sound,1);
 
-        //final int button2SoundID = sound.load(this, R.raw.button2_sound,1);
-        final int button3SoundID = sound.load(this, R.raw.button3_sound,1);
-        final int button4SoundID = sound.load(this, R.raw.button4_sound,1);
 
-        findViewById(R.id.green_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(soundLoaded.contains(button1SoundID)){
-                    sound.play(button1SoundID,1.0f, 1.0f,0,0,1.0f);
+        button1SoundID = sound.load(this, R.raw.button1_sound, 1);
+        button2SoundID = sound.load(this, R.raw.button2_sound, 1);
+        button3SoundID = sound.load(this, R.raw.button3_sound, 1);
+        button4SoundID = sound.load(this, R.raw.button4_sound, 1);
 
-                }
-                buttonIdentifier(0);
-            }
-        });
-
-        findViewById(R.id.red_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(soundLoaded.contains(button2SoundID)){
-                    sound.play(button2SoundID,1.0f, 1.0f,0,0,1.0f);
-                }
-                buttonIdentifier(1);
-            }
-        });
-
-        findViewById(R.id.blue_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(soundLoaded.contains(button3SoundID)){
-                    sound.play(button3SoundID,1.0f, 1.0f,0,0,1.0f);
-                }
-                buttonIdentifier(2);
-            }
-        });
-
-        findViewById(R.id.yellow_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(soundLoaded.contains(button4SoundID)){
-                    sound.play(button4SoundID,1.0f, 1.0f,0,0,1.0f);
-                }
-                buttonIdentifier(3);
-            }
-        });
 
     }
 
-    void buttonIdentifier(int num){
+
+    void buttonIdentifier(int num) {
 
         playerData.add(num);
     }
 
-
-
-
-// start game listener
-    class StartGameListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        startGame();
+        int tag = (Integer) v.getTag();
+        if (tag == 1) {
+            if (soundLoaded.contains(button1SoundID)) {
+                sound.play(button1SoundID, 1.0f, 1.0f, 0, 0, 1.0f);
+
+            }
+        } else if (tag == 2) {
+            if (soundLoaded.contains(button2SoundID)) {
+                sound.play(button2SoundID, 1.0f, 1.0f, 0, 0, 1.0f);
+
+            }
+        } else if (tag == 3) {
+            if (soundLoaded.contains(button3SoundID)) {
+                sound.play(button3SoundID, 1.0f, 1.0f, 0, 0, 1.0f);
+
+            }
+        } else if (tag == 4) {
+            if (soundLoaded.contains(button4SoundID)) {
+                sound.play(button4SoundID, 1.0f, 1.0f, 0, 0, 1.0f);
+
+            }
+        }
     }
-}//end start gamelistener
+
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        if(sound != null){
+            sound.release();
+            sound = null;
+
+            soundLoaded.clear();
+        }
+    }
+
+
+    void randomSeqeunceCreator(){
+        rand = new Random();
+
+        for(int x =0; x<=roundCount; x++){
+           randomNum = rand.nextInt(3);
+            sequenceData.add(randomNum);
+        }
+
+    }
+
+
+
+    class StartGameListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+            startGame();
+        }
+    }//end start gamelistener
 
 
     protected void startGame(){
@@ -161,16 +194,6 @@ public class PlayActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-        if(backgroundTask != null){
-            backgroundTask.cancel(true);
-            backgroundTask = null;
-        }
-
-    }
 
 
 
@@ -179,41 +202,43 @@ public class PlayActivity extends AppCompatActivity {
     class SimonTask extends AsyncTask<Void, Integer, Void> {
         private TextView messageTv;
         private int messageCount;
-        private int gameCount = 0;
 
-        Random rand = new Random();
+
+
 
 
 
         SimonTask() {
-            //messageTv = (TextView) findViewById(R.id.score_view);
-            //sequenceData.clear();
-           // playerData.clear();
+            messageTv = (TextView) findViewById(R.id.score_view);
+
+
 
         }
 
         protected void onPreExecute(){
-           // messageTv.setText("Get ready");
+             messageTv.setText("Get ready");
         }
 
         @Override
         protected Void doInBackground(Void... params) {
 
 
-
             dataCreator();
             int listSize = sequenceData.size();
             try {
 
-                if (sequenceData.size() > 0) {
-                    synchronized (lock) {
+                if ( listSize > 0) {
+                    //synchronized (lock) {
 
-                        for (int i = 0; i< listSize; i++) {
-                           publishProgress(i);
-                        }
-                        Thread.sleep(2000);
+                       // for (int i = 0; i< listSize; i++) {
+
+                           // publishProgress();
+                        //}
                         gameCount++;
-                    }
+                        Thread.sleep(1000);
+
+
+
 
                 }
 
@@ -226,41 +251,192 @@ public class PlayActivity extends AppCompatActivity {
         }
 
         void dataCreator(){
-
+            rand = new Random();
             for(int x = 0; x<=gameCount; x++) {
                 randomNum = rand.nextInt(3);
+                Log.i("dataCreator", ""+randomNum);
                 sequenceData.add(randomNum);
+
+                randomNum = 0;
+
             }
         }
+
+        /*void flipColorsBack(int y){
+            final int element = y;
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    ImageButton b;
+                    for(int x : sequenceData){
+                        Log.i("In color flip back", ""+sequenceData.indexOf(x));
+                        if (sequenceData.indexOf(element) == 0) {
+                            b = (ImageButton) findViewById(R.id.green_button);
+                            b.setImageResource(R.drawable.greene);
+                            // sound.play(button1SoundID,1.0f, 1.0f,0,0,1.0f);
+                        }
+
+                        if (sequenceData.indexOf(element) == 1) {
+                            b = (ImageButton) findViewById(R.id.red_button);
+                            b.setImageResource(R.drawable.lightred);
+                        }
+
+                        if (sequenceData.indexOf(element) == 2) {
+                            b = (ImageButton) findViewById(R.id.blue_button);
+                            b.setImageResource(R.drawable.blue);
+                        }
+
+                        if (sequenceData.indexOf(element) == 3) {
+                            b = (ImageButton) findViewById(R.id.yellow_button);
+                            b.setImageResource(R.drawable.yellow);
+                        }
+
+
+                    }
+
+                }
+            });
+        }
+*/
+
 
         @Override
         protected void onProgressUpdate(Integer...values){
             int value = values[0];
             ImageButton button;
-           Log.i("Sequence",""+value);
-            switch (value){
-                case 0: button = (ImageButton) findViewById(R.id.green_button);
-                    button.setImageResource(R.drawable.lightupgreen);
-                    break;
-                case 1:button = (ImageButton) findViewById(R.id.red_button);
+
+           Log.i("Iteration",""+value);
+           Log.i("+++In Light Up Mode",""+ sequenceData.indexOf(value));
+
+            Log.i("in for", ""+sequenceData.indexOf(gameCount));
+            for(int i = 0; i< sequenceData.size(); i++){
+
+                if (sequenceData.get(i) == 0) {
+
+                    button = (ImageButton) findViewById(R.id.green_button);
+                    button.setImageResource(R.drawable.lightgreen);
+                    // sound.play(button1SoundID,1.0f, 1.0f,0,0,1.0f);
+                   // flipColorsBack(value);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    button.setImageResource(R.drawable.greene);
+                }
+
+                if (sequenceData.get(i) == 1) {
+                    button = (ImageButton) findViewById(R.id.red_button);
+
+         
                     button.setImageResource(R.drawable.lightupred);
-                    break;
-                case 2: button = (ImageButton) findViewById(R.id.blue_button);
+                   // flipColorsBack(value);
+                    try {
+                        Thread.sleep(3000);
+                        button.setImageResource(R.drawable.lightred);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (sequenceData.get(i) == 2) {
+                    button = (ImageButton) findViewById(R.id.blue_button);
                     button.setImageResource(R.drawable.lightupblue);
-                    break;
-                case 3:
+                    //flipColorsBack(value);
+
+                    try {
+                        Thread.sleep(3000);
+
+                        button.setImageResource(R.drawable.blue);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (sequenceData.get(i) == 3) {
                     button = (ImageButton) findViewById(R.id.yellow_button);
                     button.setImageResource(R.drawable.lightupyellow);
-                    break;
+                    //flipColorsBack(value);
+
+                    try {
+                        Thread.sleep(3000);
+                        button.setImageResource(R.drawable.yellow);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
             }
 
-        }//hey
 
-//post execute function
+        }//end progress update
+
+        //post execute function
         @Override
         protected void onPostExecute(Void aVoid){
-            //messageTv.setText("Your Turn!");
+            messageTv.setText("Your Turn!");
+            ImageButton button;
 
+            for(int i = 0; i< sequenceData.size(); i++){
+                Log.i("in for", ""+sequenceData.get(i));
+                if (sequenceData.get(i) == 0) {
+
+                    button = (ImageButton) findViewById(R.id.green_button);
+                    button.setImageResource(R.drawable.lightgreen);
+                    // sound.play(button1SoundID,1.0f, 1.0f,0,0,1.0f);
+                    // flipColorsBack(value);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    button.setImageResource(R.drawable.greene);
+                }
+
+                if (sequenceData.get(i) == 1) {
+                    button = (ImageButton) findViewById(R.id.red_button);
+                    button.setImageResource(R.drawable.lightupred);
+                    // flipColorsBack(value);
+                    try {
+                        Thread.sleep(3000);
+                        button.setImageResource(R.drawable.lightred);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (sequenceData.get(i) == 2) {
+                    button = (ImageButton) findViewById(R.id.blue_button);
+                    button.setImageResource(R.drawable.lightupblue);
+                    //flipColorsBack(value);
+
+                    try {
+                        Thread.sleep(3000);
+
+                        button.setImageResource(R.drawable.blue);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (sequenceData.get(i) == 3) {
+                    button = (ImageButton) findViewById(R.id.yellow_button);
+                    button.setImageResource(R.drawable.lightupyellow);
+                    //flipColorsBack(value);
+
+                    try {
+                        Thread.sleep(3000);
+                        button.setImageResource(R.drawable.yellow);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
 
             backgroundTask = null;
         }
@@ -278,6 +454,10 @@ public class PlayActivity extends AppCompatActivity {
 
 
 }
+
+
+
+
 
 
 
