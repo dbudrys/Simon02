@@ -306,6 +306,7 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
         protected void onProgressUpdate(Integer...values){
             int value = values[0];
             ImageButton button;
+
            Log.i("Iteration",""+value);
            Log.i("+++In Light Up Mode",""+ sequenceData.indexOf(value));
 
@@ -328,6 +329,8 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
 
                 if (sequenceData.get(i) == 1) {
                     button = (ImageButton) findViewById(R.id.red_button);
+
+         
                     button.setImageResource(R.drawable.lightupred);
                    // flipColorsBack(value);
                     try {
